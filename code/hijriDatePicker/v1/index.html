@@ -1,0 +1,162 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="utf-8" />
+    <title>
+        Bootstrap Hijri Date Picker
+    </title>
+
+
+    <script src='APPIAN_JS_SDK_URI'></script>
+
+    <link rel="stylesheet"
+        href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.3.1/css/bootstrap.min.css" />
+    <link href="css/bootstrap-datetimepicker.css" rel="stylesheet" />
+
+</head>
+
+<body>
+    <div class="container">
+
+        <div class="form-group">
+            <div class="input-group">
+                <input type='text' class="form-control" id="hijri-date-input" />
+            </div>
+        </div>
+    </div>
+    <script src='APPIAN_JS_SDK_URI'></script>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.22.1/moment.min.js"></script>
+    <script src="js/bootstrap-hijri-datetimepicker.js"></script>
+    <script type="text/javascript">
+        let inputValue = '';
+        let isRequired;
+        let requiredMessage;
+        let selectedDayColor= Appian.getAccentColor();
+        let currentDayColor= Appian.getAccentColor();
+
+        if (Appian.getLocale() === "ar") {
+            $('.container').css("justify-content", "flex-end");
+            $('.form-control').css("text-align", "end");
+        } else {
+            $('.container').css("justify-content", "flex-start");
+            $('.form-control').css("text-align", "start");        }
+
+        const hijriConfigs = {
+            // timezone
+            timeZone: 'Etc/UTC',
+
+            inline: true,
+            // Date format. See moment.js docs for valid formats.
+            format: 'DD/MM/YYYY',
+            hijriFormat: 'iDD/iMM/iYYYY',
+            hijriDayViewHeaderFormat: 'iMMMM iYYYY',
+
+            // Changes the heading of the datepicker when in "days" view.
+            dayViewHeaderFormat: 'MMMM YYYY',
+
+            // Prevents date/time selections before this date
+            minDate: '1947-01-01',
+
+            // Prevents date/time selections after this date
+            maxDate: '2065-01-01',
+
+            // See moment.js for valid locales.
+            locale: Appian.getLocale() === "ar" ? 'ar-SA' : 'en',
+
+
+            // CSS selector
+            datepickerInput: '.datepickerinput',
+
+
+            // Use hijri date
+            hijri: true
+
+        }
+
+        $(function () {
+
+            $("#hijri-date-input").hijriDatePicker(hijriConfigs)
+
+            Appian.Component.onNewValue(function (newValues) {
+                //initialize and update some values
+                isRequired = newValues.required;
+                requiredMessage = newValues.requiredMessage;
+
+
+                //manage initial and updated value
+                inputValue = newValues.hijriDate;
+                document.getElementById("hijri-date-input").value = inputValue;
+                console.log("New value received: " + inputValue);
+
+                //manage disabled
+                if (newValues.disabled) {
+                    $('#hijri-date-input').data("HijriDatePicker").disable()
+
+                } else {
+                    $('#hijri-date-input').data("HijriDatePicker").enable()
+                }
+                let borderRadius = newValues.shape;
+                //manage border radius
+                if (borderRadius) {
+                    switch (borderRadius) {
+                        case "SQUARED":
+                            borderRadius = "0px";
+                            break;
+                        case "SEMI_ROUNDED":
+                            borderRadius = "0.2857rem";
+                            break;
+                    };
+                    $('#hijri-date-input').css("border-radius", borderRadius)
+                } else {
+                    $('#hijri-date-input').css("border-radius", "0px")
+                }
+                checkValidations(requiredMessage, isRequired);
+                // console.log("disabled: " + newValues.disabled);
+
+
+
+            });
+
+
+            // Use the 'dp.change' event to capture changes in the date picker
+            $('#hijri-date-input').on('dp.change', function (e) {
+                inputValue = e.target.value;
+                console.log('Input value changed: ' + inputValue);
+                Appian.Component.saveValue("onChange", inputValue);
+
+                checkValidations(requiredMessage, isRequired);
+            });
+
+
+
+            function checkValidations(requiredMessage, isRequired) {
+                console.log("checkValidations function called");
+                if (isRequired && inputValue == "") {
+                    let validationMessage;
+                    if (requiredMessage) {
+                        validationMessage = requiredMessage
+                    } else {
+                        if (Appian.getLocale() === "ar") {
+                            validationMessage = "مطلوب قيمة"
+                        } else {
+                            validationMessage = "A value is required"
+                        }
+                    }
+                    console.log("validationMessage: " + validationMessage);
+                    Appian.Component.setValidations(validationMessage)
+                } else {
+                    console.log("validationMessage: empty");
+                    Appian.Component.setValidations([])
+                }
+            }
+
+        });
+
+
+    </script>
+</body>
+
+</html>

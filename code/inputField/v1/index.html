@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+</head>
+
+<body>
+  <script src='APPIAN_JS_SDK_URI'></script>
+  <script>
+    let inputValue = '';
+    let timerId = null;
+    const debounceTime = 500; // Adjust the debounce time as needed
+
+    Appian.Component.onNewValue(function (newValues) {
+      inputValue = newValues.param1;
+      document.getElementById("pac-input").value = inputValue;
+      alert("New value received: " + inputValue);
+    //  console.log("New value received: " + inputValue);
+    });
+
+    document.addEventListener("DOMContentLoaded", function () {
+      document.querySelector("#pac-input").addEventListener("input", function onInputChange(e) {
+        clearTimeout(timerId); // Clear the previous timer
+        timerId = setTimeout(function () {
+         // console.log("Input value changed: " + e.target.value);
+          inputValue = e.target.value;
+          Appian.Component.saveValue("onChange", inputValue);
+        }, debounceTime);
+      });
+    });
+  </script>
+  <div id='map-container'>
+    <input id='pac-input' type='text' placeholder='Search Box'></input>
+  </div>
+</body>
+
+</html>

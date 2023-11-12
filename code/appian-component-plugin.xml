@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<appian-component-plugin name="Ahmad Component Plug-in" key="com.ahmad.plugin">
+  <plugin-info>
+    <description>this is a description for my plugin</description>
+    <vendor name="Ahmad" url="https://github.com/ahmad244" />
+    <support supported="true" email="ahmadbuthom@hotmail.com" url="https://github.com/ahmad244" />
+    <version>1.0</version>
+  </plugin-info>
+
+  <component rule-name="inputField" version="1.0.0">
+    <sdk-version>2.0.0</sdk-version>
+    <icon-file>google-maps.svg</icon-file>
+    <parameter>
+      <name>param1</name>
+      <category>input-only</category>
+      <type>Text</type>
+    </parameter>
+
+    <parameter>
+      <name>onChange</name>
+      <category>event</category>
+    </parameter>
+    <html-entry-point>index.html</html-entry-point>
+    <supported-user-agents>chrome firefox ie11 edge safari mobile</supported-user-agents>
+  </component>
+
+  <component rule-name="hijriDatePicker" version="1.0.0">
+    <sdk-version>2.0.0</sdk-version>
+    <icon-file>google-maps.svg</icon-file>
+    <parameter>
+      <name>hijriDate</name>
+      <category>input-only</category>
+      <type>Text</type>
+    </parameter>
+    
+    <parameter>
+      <name>requiredMessage</name>
+      <category>input-only</category>
+      <type>Text</type>
+    </parameter>
+    
+    <parameter>
+      <name>shape</name>
+      <category>input-only</category>
+      <type>Text</type>
+    </parameter>
+
+    <parameter>
+      <name>onChange</name>
+      <category>event</category>
+    </parameter>
+    <html-entry-point>index.html</html-entry-point>
+    <supported-user-agents>chrome firefox ie11 edge safari mobile</supported-user-agents>
+  </component>
+</appian-component-plugin>
