@@ -547,9 +547,10 @@
 .datepicker tbody tr > td.day.selected:hover,
 .datepicker tbody tr > td.day.active,
 .datepicker tbody tr > td.day.active:hover {
-  background: #58dd6e;
+  /* background: #5867dd; */
   color: #ffffff;
 }
+
 
 .datepicker tbody tr > td.day.today {
   position: relative;
@@ -667,6 +668,4 @@
 /* html {
   background-color: #000000;
 } */
-
-
 

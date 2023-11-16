@@ -32,19 +32,26 @@
       <category>input-only</category>
       <type>Text</type>
     </parameter>
-    
     <parameter>
       <name>requiredMessage</name>
       <category>input-only</category>
       <type>Text</type>
     </parameter>
-    
     <parameter>
       <name>shape</name>
       <category>input-only</category>
       <type>Text</type>
     </parameter>
-
+    <parameter>
+      <name>currentDayColor</name>
+      <category>input-only</category>
+      <type>Text</type>
+    </parameter>
+    <parameter>
+      <name>selectedDayColor</name>
+      <category>input-only</category>
+      <type>Text</type>
+    </parameter>
     <parameter>
       <name>onChange</name>
       <category>event</category>

@@ -84,7 +84,14 @@
                 //initialize and update some values
                 isRequired = newValues.required;
                 requiredMessage = newValues.requiredMessage;
-
+                
+                /* handle accent color */
+                selectedDayColor = (newValues.selectedDayColor)? newValues.selectedDayColor: selectedDayColor;
+                currentDayColor = (newValues.currentDayColor)? newValues.currentDayColor: currentDayColor;
+                console.log("selectedDayColor: " + selectedDayColor);
+                console.log("currentDayColor: " + currentDayColor);
+                $('.datepicker tbody tr > td.day.active').css("background" , selectedDayColor);
+                $('.datepicker tbody tr > td.day.today').css("background" , currentDayColor);
 
                 //manage initial and updated value
                 inputValue = newValues.hijriDate;
