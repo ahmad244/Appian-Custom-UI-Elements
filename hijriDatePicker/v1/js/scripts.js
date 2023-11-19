@@ -3,13 +3,7 @@ let isRequired;
 let requiredMessage;
 let selectedDayColor = Appian.getAccentColor();
 let currentDayColor = Appian.getAccentColor();
-
 let selectMonthElement;
-
-let component = $("#hijri-date-input").data("HijriDatePicker");
-console.log("component: " + component);
-console.log("hide called");
-component.hide();
 
 console.log("Appian.getLocale(): " + Appian.getLocale());
 if (Appian.getLocale() === "ar") {
@@ -20,57 +14,64 @@ if (Appian.getLocale() === "ar") {
   $(".form-control").css("text-align", "start");
 }
 
-var formControl = $(".form-control");
 
-formControl.on("focus", function () {
-  formControl.css("border-color", Appian.getAccentColor());
-});
+//TODO: 
+// var formControl = $(".form-control");
 
-formControl.on("blur", function () {
-  formControl.css("border-color", "initial"); // Reset border color to initial value on blur
-});
+// formControl.on("focus", function () {
+//   formControl.css("border-color", Appian.getAccentColor());
+// });
 
-const hijriConfigs = {
-  // timezone
-  timeZone: "Etc/UTC",
-
-  inline: true,
-  // Date format. See moment.js docs for valid formats.
-  format: "D/M/YYYY",
-  hijriFormat: "iD/iM/iYYYY",
-  hijriDayViewHeaderFormat: "iMMMM iYYYY",
-
-  // Changes the heading of the datepicker when in "days" view.
-  dayViewHeaderFormat: "MMMM YYYY",
-
-  // Prevents date/time selections before this date
-  minDate: "1947-1-1",
-
-  // Prevents date/time selections after this date
-  maxDate: "2065-1-1",
-
-  // See moment.js for valid locales.
-  locale: Appian.getLocale() === "ar" ? "ar-SA" : "en",
-
-  // CSS selector
-  datepickerInput: ".datepickerinput",
-
-  // Use hijri date
-  hijri: true,
-
-  // If `false`, the textbox will not be given focus when the picker is shown.
-  focusOnShow: false,
-
-  // If `true`, the picker will show on textbox focus and icon click when used in a button group.
-  allowInputToggle: false,
-};
+// formControl.on("blur", function () {
+//   formControl.css("border-color", "initial"); // Reset border color to initial value on blur
+// });
 
 $(function () {
+  
+  const hijriConfigs = {
+    // timezone
+    timeZone: "Etc/UTC",
+
+    inline: true,
+    // Date format. See moment.js docs for valid formats.
+    format: "D/M/YYYY",
+    hijriFormat: "iD/iM/iYYYY",
+    hijriDayViewHeaderFormat: "iMMMM iYYYY",
+
+    // Changes the heading of the datepicker when in "days" view.
+    dayViewHeaderFormat: "MMMM YYYY",
+
+    // Prevents date/time selections before this date
+    minDate: "1947-1-1",
+
+    // Prevents date/time selections after this date
+    maxDate: "2065-1-1",
+
+    // See moment.js for valid locales.
+    locale: Appian.getLocale() === "ar" ? "ar-SA" : "en",
+
+    // CSS selector
+    datepickerInput: ".datepickerinput",
+
+    // Use hijri date
+    hijri: true,
+
+    // If `false`, the textbox will not be given focus when the picker is shown.
+    focusOnShow: false,
+
+    // If `true`, the picker will show on textbox focus and icon click when used in a button group.
+    allowInputToggle: false,
+  };
   $("#hijri-date-input").hijriDatePicker(hijriConfigs);
+
   Appian.Component.onNewValue(function (newValues) {
+
+    // $(".form-control").css("border-color", Appian.getAccentColor());
+
     //initialize and update some values
     isRequired = newValues.required;
     requiredMessage = newValues.requiredMessage;
+  // let component = $("#hijri-date-input").data("HijriDatePicker");
 
     /* handle accent color */
     selectedDayColor = newValues.selectedDayColor
@@ -91,9 +92,9 @@ $(function () {
 
     //manage disabled
     if (newValues.disabled) {
-      component.disable();
+      $("#hijri-date-input").data("HijriDatePicker").disable();
     } else {
-      component.enable();
+      $("#hijri-date-input").data("HijriDatePicker").enable();
     }
     let borderRadius = newValues.shape;
     //manage border radius
@@ -161,9 +162,12 @@ $(function () {
       "background",
       localSelectedDayColor
     );
+
+    //remove background color from previous selected month
     if (selectMonthElement) {
       selectMonthElement.css("background", "");
     }
+    //set background color to selected month
     selectMonthElement = $(".datepicker tbody tr > td span.month.active");
     selectMonthElement.css("background", localSelectedDayColor);
 
@@ -171,6 +175,8 @@ $(function () {
       "background",
       localSelectedDayColor
     );
+
+    
     $(".datepicker tbody tr > td.day.today").css(
       "background",
       localCurrentDayColor
